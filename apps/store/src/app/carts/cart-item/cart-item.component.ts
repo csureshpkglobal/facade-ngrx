@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { Book } from '../../book.model';
-import { CartService } from '../../cart.service';
-import { MycollectionService } from '../../mycollection.service';
+import { BooksFacadeService } from '../../books-facade.service';
 
 @Component({
   selector: 'app-cart-item',
@@ -10,21 +10,20 @@ import { MycollectionService } from '../../mycollection.service';
   styleUrls: ['./cart-item.component.css'],
 })
 export class CartItemComponent implements OnInit {
-  cartItems: Book[] = [];
+  cartItems$: Observable<Book[]>;
   constructor(
-    private cartService: CartService,
-    private mycollectionService: MycollectionService,
-    private router: Router
+    private router: Router,
+    private booksFacadeService: BooksFacadeService
   ) {}
 
   ngOnInit(): void {
-    this.cartItems = this.cartService.getCartItems();
+    this.cartItems$ = this.booksFacadeService.getAllCartItems$;
   }
   deleteItem(id: string): void {
-    this.cartService.deleteItem(id);
+    this.booksFacadeService.deleteItem(id);
   }
   proceedToCheckout(): void {
-    this.mycollectionService.mycollection$.next(this.cartItems);
+    this.booksFacadeService.updateCart(true);
     this.router.navigate(['/billingpage']);
   }
 }

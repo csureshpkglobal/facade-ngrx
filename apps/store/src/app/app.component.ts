@@ -1,41 +1,24 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { BooksService } from './books.service';
-import { CartService } from './cart.service';
-import { MycollectionService } from './mycollection.service';
+import { Observable, Subscription } from 'rxjs';
+
+import { BooksFacadeService } from './books-facade.service';
+import { Book } from './book.model';
+import { Collection } from './collection.model';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   opened = true;
-  cartCount = 0;
-  collectionCount = 0;
-  subscriptions: Subscription[] = [];
   title = 'store';
+  items$: Observable<Book[]>;
+  collections$: Observable<Collection[]>;
 
-  constructor(
-    private booksService: BooksService,
-    private cartService: CartService,
-    private mycollectionService: MycollectionService
-  ) {}
+  constructor(private booksFacadeService: BooksFacadeService) {}
   ngOnInit(): void {
-    this.subscriptions.push(
-      this.cartService.cart$.subscribe((response) => {
-        this.cartCount = response;
-      })
-    );
-    this.subscriptions.push(
-      this.mycollectionService.count$.subscribe((response) => {
-        this.collectionCount = response;
-      })
-    );
-  }
-  ngOnDestroy(): void {
-    this.subscriptions.forEach((subscription) => {
-      subscription.unsubscribe();
-    });
+    this.items$ = this.booksFacadeService.getAllCartItems$;
+    this.collections$ = this.booksFacadeService.getAllCollections$;
   }
 }

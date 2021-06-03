@@ -4,15 +4,18 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BooksService } from './books.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BookDetailsComponent } from './book-details/book-details.component';
-import { CartService } from './cart.service';
 import { BillingPageComponent } from './billing-page/billing-page.component';
-import { MycollectionService } from './mycollection.service';
 import { SnakBarComponent } from './snak-bar/snak-bar.component';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+
+import * as fromApp from './app.reducer';
+import { CartEffects } from './ngrx-store/cart.effects';
+import { BooksFacadeService } from './books-facade.service';
 
 @NgModule({
   declarations: [
@@ -30,8 +33,10 @@ import { SnakBarComponent } from './snak-bar/snak-bar.component';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
+    StoreModule.forRoot(fromApp.appReducer),
+    EffectsModule.forRoot([CartEffects]),
   ],
-  providers: [BooksService, CartService, MycollectionService],
+  providers: [BooksFacadeService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

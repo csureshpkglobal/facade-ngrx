@@ -1,59 +1,41 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { BooksService } from '../books.service';
 import { FormBuilder, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Book } from '../book.model';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { BooksFacadeService } from '../books-facade.service';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css'],
 })
-export class SearchComponent implements OnInit, OnDestroy {
+export class SearchComponent implements OnInit {
   searchWord = '';
-  items: Book[] = [];
+  items$: Observable<Book[]>;
   subscriptions: Subscription[] = [];
   searchForm = this.fb.group({
     searchWord: ['', Validators.required],
   });
 
   constructor(
-    private booksService: BooksService,
     private router: Router,
-    private fb: FormBuilder
-  ) {}
+    private fb: FormBuilder,
+    private booksFacadeService: BooksFacadeService
+  ) {
+    this.items$ = this.booksFacadeService.getAllItems$;
+  }
   ngOnInit(): void {
-    this.searchWord = this.booksService.getSearchKeyWord();
-
-    if (this.searchWord !== '') {
-      this.searchForm.setValue({ searchWord: this.searchWord });
-      this.subscriptions.push(
-        this.booksService
-          .getBooksByName(this.searchWord)
-          .subscribe((result) => {
-            this.items = result;
-          })
-      );
-    }
+    if (this.searchWord !== '')
+      this.booksFacadeService.getBooksByName(this.searchWord);
   }
   onSubmit(): void {
-    this.booksService
-      .getBooksByName(this.searchForm.controls.searchWord.value)
-      .subscribe((result) => {
-        this.items = result;
-      });
-    this.booksService.setSearchKeyWord(
+    this.booksFacadeService.getBooksByName(
       this.searchForm.controls.searchWord.value
     );
   }
   getBookDetails(id: string): void {
-    this.booksService.books$.next(this.items[id]);
+    this.booksFacadeService.setSelectedId(parseInt(id));
     this.router.navigate(['/bookdetails']);
-  }
-  ngOnDestroy(): void {
-    this.subscriptions.forEach((subscription) => {
-      subscription.unsubscribe();
-    });
   }
 }

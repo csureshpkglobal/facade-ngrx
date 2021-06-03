@@ -6,7 +6,7 @@
   <span (click)="onSubmit()" class="material-icons searchicon">search </span>
 </form>
 <mat-grid-list cols="2" rowHeight="2:1">
-  <mat-grid-tile *ngFor="let item of items; let i = index">
+  <mat-grid-tile *ngFor="let item of items$ | async; let i = index">
     <mat-card (click)="getBookDetails(i)">
       <mat-card-title>
         {{ item.title }}

@@ -1,44 +1,36 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Book } from '../book.model';
-import { BooksService } from '../books.service';
-import { CartService } from '../cart.service';
-import { MycollectionService } from '../mycollection.service';
+import { BooksFacadeService } from '../books-facade.service';
 
 @Component({
   selector: 'app-book-details',
   templateUrl: './book-details.component.html',
   styleUrls: ['./book-details.component.css'],
 })
-export class BookDetailsComponent implements OnInit, OnDestroy {
+export class BookDetailsComponent implements OnInit {
   id: string;
-  bookDetails: Book;
+  book: Book;
+  bookDetails$: Observable<Book>;
+
   subscriptions: Subscription[] = [];
 
   constructor(
-    private booksService: BooksService,
-    private cartService: CartService,
-    private myCollectionService: MycollectionService,
-    private router: Router
+    private router: Router,
+    private booksFacadeService: BooksFacadeService
   ) {}
   ngOnInit(): void {
-    this.subscriptions.push(
-      this.booksService.books$.subscribe((response) => {
-        this.bookDetails = response;
-      })
-    );
+    this.bookDetails$ = this.booksFacadeService.getSelectedItem$;
+    this.bookDetails$.subscribe((result) => {
+      this.book = result;
+    });
   }
   addToCart(): void {
-    this.cartService.addCartItem(this.bookDetails);
+    this.booksFacadeService.addCartItem(this.book);
   }
   buyNow(): void {
-    this.myCollectionService.mycollection$.next(this.bookDetails);
+    this.booksFacadeService.addBook(this.book);
     this.router.navigate(['/billingpage']);
-  }
-  ngOnDestroy(): void {
-    this.subscriptions.forEach((subscription) => {
-      subscription.unsubscribe();
-    });
   }
 }

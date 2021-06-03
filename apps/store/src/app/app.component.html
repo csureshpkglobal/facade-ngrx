@@ -18,8 +18,8 @@
     <br />
     <div routerLink="/cart">
       <mat-icon
-        [matBadgeHidden]="!cartCount"
-        [matBadge]="cartCount"
+        [matBadgeHidden]="!(items$ | async).length"
+        [matBadge]="(items$ | async).length"
         matBadgeColor="warn"
         matBadgePosition="above before"
         >shopping_cart</mat-icon
@@ -29,8 +29,8 @@
     <br />
     <div routerLink="/mycollection">
       <mat-icon
-        [matBadgeHidden]="!collectionCount"
-        [matBadge]="collectionCount"
+        [matBadgeHidden]="!(collections$ | async).length"
+        [matBadge]="(collections$ | async).length"
         matBadgeColor="warn"
         matBadgePosition="above before"
         >library_books</mat-icon

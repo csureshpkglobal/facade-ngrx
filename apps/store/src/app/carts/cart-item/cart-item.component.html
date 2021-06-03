@@ -1,5 +1,5 @@
 <div class="main">
-  <div *ngFor="let item of cartItems">
+  <div *ngFor="let item of cartItems$ | async">
     <mat-card>
       <mat-card-title>
         {{ item.title }}
@@ -19,7 +19,7 @@
   <div class="action">
     <button
       color="primary"
-      *ngIf="cartItems.length"
+      *ngIf="(cartItems$ | async).length"
       mat-flat-button
       (click)="proceedToCheckout()"
     >
