@@ -20,7 +20,7 @@ const initialState: State = {
 export function cartReducer(
   state: State = initialState,
   action: CartActions.CartActions
-) {
+): State {
   switch (action.type) {
     case CartActions.ADD_CARTITEM:
       return {

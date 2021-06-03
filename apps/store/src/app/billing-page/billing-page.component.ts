@@ -54,7 +54,6 @@ export class BillingPageComponent implements OnInit {
       });
       this.booksFacadeService.clearItems();
     } else {
-      let book: Book;
       this.booksFacadeService.getBookInCollection$.subscribe((book) => {
         this.collection = {
           title: book?.title || '',

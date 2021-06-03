@@ -12,7 +12,7 @@ import { Collection } from './collection.model';
   providedIn: 'root',
 })
 export class BooksFacadeService {
-  //Cart Store
+  // Cart Store
   getAllItems$ = this.store.select((state) => state.cart.items);
   getAllCartItems$ = this.store.select((state) => state.cart.cartItems);
   getSelectedItem$ = this.store.select(
@@ -21,7 +21,7 @@ export class BooksFacadeService {
   isCart$ = this.store.select((state) => state.cart.isCart);
   searchWord$ = this.store.select((state) => state.cart.searchWord);
 
-  //Collection store
+  // Collection store
   getBookInCollection$ = this.store.select((state) => state.collection.book);
   getAllCollections$ = this.store.select(
     (state) => state.collection.collections
@@ -29,30 +29,30 @@ export class BooksFacadeService {
 
   constructor(private store: Store<fromApp.AppState>) {}
 
-  getBooksByName(search: string) {
+  getBooksByName(search: string): void {
     this.store.dispatch(new cartActions.GetBooksByName(search));
   }
-  setSelectedId(id: number) {
+  setSelectedId(id: number): void {
     this.store.dispatch(new cartActions.SelectedId(id));
   }
-  addCartItem(book: Book) {
+  addCartItem(book: Book): void {
     this.store.dispatch(new cartActions.AddCartItem(book));
   }
-  updateCart(flag: boolean) {
+  updateCart(flag: boolean): void {
     this.store.dispatch(new cartActions.IsCart(flag));
   }
-  deleteItem(id: string) {
+  deleteItem(id: string): void {
     this.store.dispatch(new cartActions.DeletCartItem(id));
   }
-  clearItems() {
+  clearItems(): void {
     this.store.dispatch(new cartActions.ClearCart());
   }
 
-  //Collection API
-  addBook(book: Book) {
+  // Collection API
+  addBook(book: Book): void {
     this.store.dispatch(new collectionActions.AddBook(book));
   }
-  addCollection(collection: Collection) {
+  addCollection(collection: Collection): void {
     this.store.dispatch(new collectionActions.AddCollection(collection));
   }
 }

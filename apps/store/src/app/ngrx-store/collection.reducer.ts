@@ -15,7 +15,7 @@ const initialState: State = {
 export function collectionReducer(
   state: State = initialState,
   action: CollectionActions.CollectionActions
-) {
+): State {
   switch (action.type) {
     case CollectionActions.ADD_COLLECTION:
       return {

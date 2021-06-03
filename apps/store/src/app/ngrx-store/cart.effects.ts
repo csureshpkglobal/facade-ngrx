@@ -25,7 +25,6 @@ export interface Book {
 @Injectable()
 export class CartEffects {
   getBooksByName$ = createEffect(() => {
-    let books: Book[];
     return this.actions$.pipe(
       ofType(cartActions.GET_BOOKSBYNAME),
       switchMap((bookData: cartActions.GetBooksByName) => {
@@ -39,9 +38,9 @@ export class CartEffects {
           .pipe(
             map((res: any) => {
               console.log('Received response');
-              let books = [];
+              const books = [];
               res.items.map((item: any) => {
-                let book: Book = {
+                const book: Book = {
                   id: item.id,
                   title: item.volumeInfo.title,
                   imageLink: item.volumeInfo?.imageLinks?.thumbnail,
@@ -54,7 +53,7 @@ export class CartEffects {
                 };
                 books.push(book);
               });
-              return new cartActions.AddBooks({ books: books });
+              return new cartActions.AddBooks({ books });
             }),
             catchError((errorRes) => {
               console.log('Error Message');

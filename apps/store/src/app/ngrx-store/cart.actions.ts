@@ -8,7 +8,7 @@ export const IS_CART = '[Cart] IS_CART';
 export const ADD_BOOKS = '[Cart] ADD_BOOKS';
 export const SELECTED_ID = '[Cart] SELECTED_ID';
 
-//Effects
+// Effects
 export const GET_BOOKSBYNAME = '[Cart] GET_BOOKSBYNAME';
 
 export class AddCartItem implements Action {

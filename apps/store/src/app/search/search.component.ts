@@ -26,8 +26,9 @@ export class SearchComponent implements OnInit {
     this.items$ = this.booksFacadeService.getAllItems$;
   }
   ngOnInit(): void {
-    if (this.searchWord !== '')
+    if (this.searchWord !== '') {
       this.booksFacadeService.getBooksByName(this.searchWord);
+    }
   }
   onSubmit(): void {
     this.booksFacadeService.getBooksByName(
@@ -35,7 +36,7 @@ export class SearchComponent implements OnInit {
     );
   }
   getBookDetails(id: string): void {
-    this.booksFacadeService.setSelectedId(parseInt(id));
+    this.booksFacadeService.setSelectedId(parseInt(id, 10));
     this.router.navigate(['/bookdetails']);
   }
 }
