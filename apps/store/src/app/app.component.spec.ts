@@ -2,17 +2,32 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Store, StoreModule } from '@ngrx/store';
 import { AppComponent } from './app.component';
+import { BooksFacadeService } from './books-facade.service';
+import * as fromApp from './app.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { CartEffects } from './ngrx-store/cart.effects';
 
 describe('AppComponent', () => {
   let app: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
+  let service: BooksFacadeService;
+  let store: Store<fromApp.AppState>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientTestingModule],
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        StoreModule.forRoot(fromApp.appReducer),
+        EffectsModule.forRoot([CartEffects]),
+      ],
       declarations: [AppComponent],
+      providers: [BooksFacadeService],
     }).compileComponents();
+    service = TestBed.inject(BooksFacadeService);
+    store = TestBed.inject(Store);
   });
 
   beforeEach(() => {

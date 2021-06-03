@@ -2,24 +2,33 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router, RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Store, StoreModule } from '@ngrx/store';
 import { Book } from '../book.model';
-import { BooksService } from '../books.service';
-import { CartService } from '../cart.service';
-import { MycollectionService } from '../mycollection.service';
+import { BooksFacadeService } from '../books-facade.service';
+import * as fromApp from '../app.reducer';
 
 import { BookDetailsComponent } from './book-details.component';
+import { EffectsModule } from '@ngrx/effects';
+import { CartEffects } from '../ngrx-store/cart.effects';
 
 describe('BookDetailsComponent', () => {
   let component: BookDetailsComponent;
   let fixture: ComponentFixture<BookDetailsComponent>;
   let book: Book;
-  let mockCartService: CartService;
+  let bookService: BooksFacadeService;
+  let store: Store<fromApp.AppState>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [BookDetailsComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule, RouterModule],
-      providers: [BooksService, CartService, MycollectionService],
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule,
+        RouterModule,
+        StoreModule.forRoot(fromApp.appReducer),
+        EffectsModule.forRoot([CartEffects]),
+      ],
+      providers: [],
     }).compileComponents();
   });
 
@@ -27,7 +36,9 @@ describe('BookDetailsComponent', () => {
     fixture = TestBed.createComponent(BookDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    mockCartService = TestBed.inject(CartService);
+    // mockCartService = TestBed.inject(CartService);
+    bookService = TestBed.inject(BooksFacadeService);
+    store = TestBed.inject(Store);
   });
 
   it('should create', () => {
@@ -45,11 +56,12 @@ describe('BookDetailsComponent', () => {
       pageCount: '10',
       language: 'en',
     };
-    spyOn(mockCartService, 'addCartItem').and.returnValue(undefined);
-    component.bookDetails = book;
+    component.book = book;
 
     component.addToCart();
 
-    expect(mockCartService.addCartItem).toHaveBeenCalled();
+    bookService.getAllCartItems$.subscribe((result) => {
+      expect(result.length).toEqual(1);
+    });
   });
 });

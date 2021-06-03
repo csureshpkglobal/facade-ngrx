@@ -4,18 +4,17 @@ import {
 } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
-import {
-  FormBuilder,
-  FormsModule,
-  NgForm,
-  NgModel,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SearchComponent } from './search.component';
-import { BooksService } from '../books.service';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
+import { BooksFacadeService } from '../books-facade.service';
+import { Store } from '@ngrx/store';
+import * as fromApp from '../app.reducer';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { CartEffects } from '../ngrx-store/cart.effects';
 
 const mockBooks = [
   {
@@ -33,7 +32,8 @@ const mockBooks = [
 describe('SearchComponent', () => {
   let component: SearchComponent;
   let fixture: ComponentFixture<SearchComponent>;
-  let bookService: BooksService;
+  let bookService: BooksFacadeService;
+  let store: Store<fromApp.AppState>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -41,13 +41,16 @@ describe('SearchComponent', () => {
       imports: [
         HttpClientTestingModule,
         RouterModule.forRoot([]),
+        StoreModule.forRoot(fromApp.appReducer),
+        EffectsModule.forRoot([CartEffects]),
         FormsModule,
         ReactiveFormsModule,
       ],
-      providers: [BooksService],
+      providers: [BooksFacadeService],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
-    bookService = TestBed.inject(BooksService);
+    bookService = TestBed.inject(BooksFacadeService);
+    store = TestBed.inject(Store);
   });
 
   beforeEach(() => {
@@ -55,7 +58,6 @@ describe('SearchComponent', () => {
     component = fixture.componentInstance;
     component.ngOnInit();
     fixture.detectChanges();
-    spyOn(bookService, 'getSearchKeyWord').and.callThrough();
   });
 
   it('should create', () => {
@@ -93,8 +95,8 @@ describe('SearchComponent', () => {
     expect(searchWord.value).toEqual('Angular');
   });
   it('should check getBookDetails', () => {
-    spyOn(bookService, 'getBooksByName').and.returnValue(of(mockBooks));
-    spyOn(bookService, 'setSearchKeyWord').and.returnValue(undefined);
+    spyOn(bookService, 'getBooksByName').and.returnValue(undefined);
+    spyOn(bookService, 'setSelectedId').and.returnValue(undefined);
     component.searchForm.setValue({ searchWord: 'Angular' });
 
     component.onSubmit();

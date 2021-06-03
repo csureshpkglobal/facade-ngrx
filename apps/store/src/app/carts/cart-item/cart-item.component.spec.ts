@@ -1,22 +1,36 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
+import { Store, StoreModule } from '@ngrx/store';
 import { Book } from '../../book.model';
-import { CartService } from '../../cart.service';
-import { MycollectionService } from '../../mycollection.service';
+import { BooksFacadeService } from '../../books-facade.service';
 
 import { CartItemComponent } from './cart-item.component';
+import * as fromApp from '../../app.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { CartEffects } from '../../ngrx-store/cart.effects';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('CartItemComponent', () => {
   let component: CartItemComponent;
   let fixture: ComponentFixture<CartItemComponent>;
   let books: Book[];
+  let bookService: BooksFacadeService;
+  let store: Store<fromApp.AppState>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [CartItemComponent],
-      imports: [RouterModule.forRoot([])],
-      providers: [CartService, MycollectionService],
+      imports: [
+        HttpClientTestingModule,
+        RouterModule.forRoot([]),
+        StoreModule.forRoot(fromApp.appReducer),
+        EffectsModule.forRoot([CartEffects]),
+      ],
+
+      providers: [BooksFacadeService],
     }).compileComponents();
+    bookService = TestBed.inject(BooksFacadeService);
+    store = TestBed.inject(Store);
   });
 
   beforeEach(() => {
@@ -53,22 +67,28 @@ describe('CartItemComponent', () => {
     expect(component).toBeTruthy();
   });
   it('should have 0 cartitems to start', () => {
-    expect(component.cartItems.length).toEqual(0);
+    component.cartItems$.subscribe((result) => {
+      expect(result.length).toEqual(0);
+    });
   });
   it('should delete an item from  cartitems when delteItem is called', () => {
-    component.cartItems.push(books[0]);
-    component.cartItems.push(books[1]);
+    bookService.addCartItem(books[0]);
+    bookService.addCartItem(books[1]);
 
     component.deleteItem('1');
 
-    expect(component.cartItems.length).toEqual(1);
+    component.cartItems$.subscribe((result) => {
+      expect(result.length).toEqual(1);
+    });
   });
   it('should not delete an item from  cartitems when delteItem is called with wrong id', () => {
-    component.cartItems.push(books[0]);
-    component.cartItems.push(books[1]);
+    bookService.addCartItem(books[0]);
+    bookService.addCartItem(books[1]);
 
     component.deleteItem('3');
 
-    expect(component.cartItems.length).toEqual(2);
+    component.cartItems$.subscribe((result) => {
+      expect(result.length).toEqual(2);
+    });
   });
 });

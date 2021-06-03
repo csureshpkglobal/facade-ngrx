@@ -3,48 +3,54 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgForm, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BooksService } from '../books.service';
-import { CartService } from '../cart.service';
-import { MycollectionService } from '../mycollection.service';
+import { Store, StoreModule } from '@ngrx/store';
+import { BooksFacadeService } from '../books-facade.service';
+import * as fromApp from '../app.reducer';
 
 import { BillingPageComponent } from './billing-page.component';
+import { EffectsModule } from '@ngrx/effects';
+import { CartEffects } from '../ngrx-store/cart.effects';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('BillingPageComponent', () => {
   let component: BillingPageComponent;
   let fixture: ComponentFixture<BillingPageComponent>;
-  let cartService: CartService;
-  let mycollectionService: MycollectionService;
+  let bookService: BooksFacadeService;
+  let store: Store<fromApp.AppState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [BillingPageComponent, NgForm],
       imports: [
         MatSnackBarModule,
+        HttpClientTestingModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
+        StoreModule.forRoot(fromApp.appReducer),
+        EffectsModule.forRoot([CartEffects]),
       ],
-      providers: [BooksService, CartService, MycollectionService],
+      providers: [],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    cartService = TestBed.inject(CartService);
-    mycollectionService = TestBed.inject(MycollectionService);
     fixture = TestBed.createComponent(BillingPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    bookService = TestBed.inject(BooksFacadeService);
+    store = TestBed.inject(Store);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
   it('should be called onSubmit', () => {
-    spyOn(mycollectionService, 'addCollection').and.returnValue(undefined);
+    spyOn(bookService, 'addCollection').and.returnValue(undefined);
     component.isCart = false;
     component.onSubmit('name', 's@g.com', 0, 'address');
 
-    expect(mycollectionService.addCollection).toHaveBeenCalled();
+    expect(bookService.addCollection).toHaveBeenCalled();
   });
   it('should check name field', () => {
     const name = component.billingForm.controls.name;
