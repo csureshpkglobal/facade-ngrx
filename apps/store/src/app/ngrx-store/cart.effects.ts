@@ -28,16 +28,12 @@ export class CartEffects {
     return this.actions$.pipe(
       ofType(cartActions.GET_BOOKSBYNAME),
       switchMap((bookData: cartActions.GetBooksByName) => {
-        console.log('bookData.payload');
-        console.log(bookData.payload);
-
         return this.httpClient
           .get<Book[]>(
             'https://www.googleapis.com/books/v1/volumes?q=' + bookData.payload
           )
           .pipe(
             map((res: any) => {
-              console.log('Received response');
               const books = [];
               res.items.map((item: any) => {
                 const book: Book = {
@@ -56,8 +52,6 @@ export class CartEffects {
               return new cartActions.AddBooks({ books });
             }),
             catchError((errorRes) => {
-              console.log('Error Message');
-              console.log(errorRes);
               return of(errorRes);
             })
           );
