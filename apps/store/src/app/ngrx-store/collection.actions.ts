@@ -14,4 +14,4 @@ export class AddBook implements Action {
   constructor(public payload: Book) {}
 }
 
-export type CollectionActions = AddCollection | AddBook;
+export type CollectionActions = AddCollection | AddBook | any;

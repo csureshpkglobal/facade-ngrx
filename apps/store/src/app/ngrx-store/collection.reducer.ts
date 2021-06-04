@@ -7,7 +7,7 @@ export interface State {
   book: Book;
 }
 
-const initialState: State = {
+export const initialState: State = {
   collections: [],
   book: null,
 };
