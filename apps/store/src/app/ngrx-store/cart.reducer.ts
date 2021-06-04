@@ -9,7 +9,7 @@ export interface State {
   selectedId: number;
 }
 
-const initialState: State = {
+export const initialState: State = {
   cartItems: [],
   isCart: false,
   items: [],
@@ -19,7 +19,7 @@ const initialState: State = {
 
 export function cartReducer(
   state: State = initialState,
-  action: CartActions.CartActions
+  action: CartActions.CartActions | any
 ): State {
   switch (action.type) {
     case CartActions.ADD_CARTITEM:
