@@ -7,6 +7,7 @@ export interface State {
   items: Book[];
   searchWord: string;
   selectedId: number;
+  recentSearchWords: string[];
 }
 
 export const initialState: State = {
@@ -15,6 +16,7 @@ export const initialState: State = {
   items: [],
   searchWord: '',
   selectedId: -1,
+  recentSearchWords: [],
 };
 
 export function cartReducer(
@@ -61,6 +63,11 @@ export function cartReducer(
       return {
         ...state,
         selectedId: action.payload,
+      };
+    case CartActions.RECENT_SEARCHWORDS:
+      return {
+        ...state,
+        recentSearchWords: [...state.recentSearchWords, action.payload],
       };
     default:
       return state;

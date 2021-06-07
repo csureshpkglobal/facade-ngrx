@@ -63,4 +63,13 @@ describe('CartReducer', () => {
 
     expect(state.cartItems.length).toEqual(0);
   });
+  it('should add search word to store recentSearchWords', () => {
+    const action = new CartActions.RecentSearchWords('Angular');
+    const state = cartReducer.cartReducer(initialState, action);
+
+    expect(state.recentSearchWords.length).toEqual(1);
+    expect(state.recentSearchWords[state.recentSearchWords.length - 1]).toEqual(
+      'Angular'
+    );
+  });
 });

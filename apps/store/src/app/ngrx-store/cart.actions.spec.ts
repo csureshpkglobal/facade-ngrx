@@ -35,4 +35,8 @@ describe('CartActions', () => {
     const action = new cartActions.SelectedId(null);
     expect(action.type).toBeTruthy(cartActions.SELECTED_ID);
   });
+  it('should create cartActios- recentSearchWords', () => {
+    const action = new cartActions.RecentSearchWords(null);
+    expect(action.type).toBeTruthy(cartActions.RECENT_SEARCHWORDS);
+  });
 });

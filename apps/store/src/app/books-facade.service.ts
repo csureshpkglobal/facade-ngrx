@@ -20,6 +20,9 @@ export class BooksFacadeService {
   );
   isCart$ = this.store.select((state) => state.cart.isCart);
   searchWord$ = this.store.select((state) => state.cart.searchWord);
+  getRecentSearWords$ = this.store.select(
+    (state) => state.cart.recentSearchWords
+  );
 
   // Collection store
   getBookInCollection$ = this.store.select((state) => state.collection.book);
@@ -30,6 +33,7 @@ export class BooksFacadeService {
   constructor(private store: Store<fromApp.AppState>) {}
 
   getBooksByName(search: string): void {
+    this.store.dispatch(new cartActions.RecentSearchWords(search));
     this.store.dispatch(new cartActions.GetBooksByName(search));
   }
   setSelectedId(id: number): void {

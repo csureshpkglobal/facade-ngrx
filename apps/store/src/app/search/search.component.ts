@@ -26,6 +26,12 @@ export class SearchComponent implements OnInit {
     this.items$ = this.booksFacadeService.getAllItems$;
   }
   ngOnInit(): void {
+    this.booksFacadeService.getRecentSearWords$.subscribe(
+      (recentSearchWords) => {
+        this.searchWord = recentSearchWords[recentSearchWords.length - 1] || '';
+        this.searchForm.patchValue({ searchWord: this.searchWord });
+      }
+    );
     if (this.searchWord !== '') {
       this.booksFacadeService.getBooksByName(this.searchWord);
     }
