@@ -2,10 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { Store, StoreModule } from '@ngrx/store';
 import { Book } from '../../book.model';
-import { BooksFacadeService } from '../../books-facade.service';
+import { BooksFacadeService } from '../../ngrx-store/books-facade.service';
 
 import { CartItemComponent } from './cart-item.component';
-import * as fromApp from '../../app.reducer';
+import * as fromApp from '../../ngrx-store/app.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { CartEffects } from '../../ngrx-store/cart.effects';
 import { HttpClientTestingModule } from '@angular/common/http/testing';

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Book } from '../../book.model';
-import { BooksFacadeService } from '../../books-facade.service';
+import { BooksFacadeService } from '../../../app/ngrx-store/books-facade.service';
 
 @Component({
   selector: 'app-cart-item',

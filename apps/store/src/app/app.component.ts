@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 
-import { BooksFacadeService } from './books-facade.service';
+import { BooksFacadeService } from '../app/ngrx-store/books-facade.service';
 import { Book } from './book.model';
 import { Collection } from './collection.model';
 

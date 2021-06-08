@@ -2,12 +2,10 @@ import { Action, State } from '@ngrx/store';
 import * as CartActions from './cart.actions';
 import * as cartReducer from '../ngrx-store/cart.reducer';
 import { Book } from '../book.model';
-import { Collection } from '../collection.model';
 
 describe('CartReducer', () => {
   let initialState: cartReducer.State;
   let book: Book;
-  let collection: Collection;
   beforeEach(() => {
     initialState = cartReducer.initialState;
     book = {
@@ -20,16 +18,6 @@ describe('CartReducer', () => {
       publisher: '',
       language: '',
       pageCount: '',
-    };
-    collection = {
-      title: '',
-      imgLink: '',
-      description: '',
-      authors: '',
-      name: '',
-      email: '',
-      phone: 0,
-      address: '',
     };
   });
   afterEach(() => {
@@ -71,5 +59,12 @@ describe('CartReducer', () => {
     expect(state.recentSearchWords[state.recentSearchWords.length - 1]).toEqual(
       'Angular'
     );
+  });
+  it('should add book to store Cart', () => {
+    const action = new CartActions.AddBook(book);
+    const state = cartReducer.cartReducer(initialState, action);
+
+    expect(state.book).toEqual(book);
+    expect(state.book.title).toEqual('title');
   });
 });

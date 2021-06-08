@@ -3,11 +3,11 @@ import { TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { Store, StoreModule } from '@ngrx/store';
 import * as fromApp from './app.reducer';
-import { Book } from './book.model';
+import { Book } from '../book.model';
 
 import { BooksFacadeService } from './books-facade.service';
-import { CartEffects } from './ngrx-store/cart.effects';
-import * as cartActions from '../app/ngrx-store/cart.actions';
+import { CartEffects } from './cart.effects';
+import * as cartActions from './cart.actions';
 
 describe('BooksFacadeService', () => {
   let service: BooksFacadeService;

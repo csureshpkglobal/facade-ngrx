@@ -48,13 +48,6 @@ describe('CollectionReducer', () => {
     expect(state).toBe(initialState);
   });
 
-  it('should add book to store Collection', () => {
-    const action = new CollectionActions.AddBook(book);
-    const state = CollectionReducer.collectionReducer(initialState, action);
-
-    expect(state.book).toEqual(book);
-    expect(state.book.title).toEqual('title');
-  });
   it('should add collection to store Collections', () => {
     const action = new CollectionActions.AddCollection(collection);
     const state = CollectionReducer.collectionReducer(initialState, action);

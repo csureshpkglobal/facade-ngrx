@@ -13,9 +13,9 @@ import { SnakBarComponent } from './snak-bar/snak-bar.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import * as fromApp from './app.reducer';
+import * as fromApp from './../app/ngrx-store/app.reducer';
 import { CartEffects } from './ngrx-store/cart.effects';
-import { BooksFacadeService } from './books-facade.service';
+import { BooksFacadeService } from './../app/ngrx-store/books-facade.service';
 
 @NgModule({
   declarations: [

@@ -8,6 +8,7 @@ export interface State {
   searchWord: string;
   selectedId: number;
   recentSearchWords: string[];
+  book: Book;
 }
 
 export const initialState: State = {
@@ -17,6 +18,7 @@ export const initialState: State = {
   searchWord: '',
   selectedId: -1,
   recentSearchWords: [],
+  book: null,
 };
 
 export function cartReducer(
@@ -59,15 +61,28 @@ export function cartReducer(
         ...state,
         items: action.payload.books,
       };
+    case CartActions.ADD_BOOK:
+      return {
+        ...state,
+        book: action.payload,
+      };
     case CartActions.SELECTED_ID:
       return {
         ...state,
         selectedId: action.payload,
       };
     case CartActions.RECENT_SEARCHWORDS:
+      const searchWord = action.payload.trim();
+      const searchWords = [...state.recentSearchWords, searchWord];
+
+      // Delete searchword if it already exists without changing last item which will be accessed in search comp
+      const index = searchWords.findIndex((value) => value === searchWord);
+      if (index !== searchWords.length - 1) {
+        searchWords.splice(index, 1);
+      }
       return {
         ...state,
-        recentSearchWords: [...state.recentSearchWords, action.payload],
+        recentSearchWords: [...searchWords],
       };
     default:
       return state;

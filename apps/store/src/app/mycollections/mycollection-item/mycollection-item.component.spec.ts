@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { Store, StoreModule } from '@ngrx/store';
-import { BooksFacadeService } from '../../books-facade.service';
-import * as fromApp from '../../app.reducer';
+import { BooksFacadeService } from '../../ngrx-store/books-facade.service';
+import * as fromApp from '../../ngrx-store/app.reducer';
 
 import { MycollectionItemComponent } from './mycollection-item.component';
 import { CartEffects } from '../../ngrx-store/cart.effects';

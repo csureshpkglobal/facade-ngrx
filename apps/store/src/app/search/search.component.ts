@@ -3,7 +3,7 @@ import { FormBuilder, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Book } from '../book.model';
 import { Observable, Subscription } from 'rxjs';
-import { BooksFacadeService } from '../books-facade.service';
+import { BooksFacadeService } from '../../app/ngrx-store/books-facade.service';
 
 @Component({
   selector: 'app-search',

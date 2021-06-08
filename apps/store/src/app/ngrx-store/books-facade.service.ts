@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import * as fromApp from './app.reducer';
-import * as cartActions from '../app/ngrx-store/cart.actions';
-import * as collectionActions from '../app/ngrx-store/collection.actions';
+import * as cartActions from './cart.actions';
+import * as collectionActions from './collection.actions';
 import { Observable } from 'rxjs';
-import { Book } from './book.model';
-import { Collection } from './collection.model';
+import { Book } from '../../app/book.model';
+import { Collection } from '../../app/collection.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,9 +23,10 @@ export class BooksFacadeService {
   getRecentSearWords$ = this.store.select(
     (state) => state.cart.recentSearchWords
   );
+  getBookInCollection$ = this.store.select((state) => state.cart.book);
 
   // Collection store
-  getBookInCollection$ = this.store.select((state) => state.collection.book);
+
   getAllCollections$ = this.store.select(
     (state) => state.collection.collections
   );
@@ -54,7 +55,7 @@ export class BooksFacadeService {
 
   // Collection API
   addBook(book: Book): void {
-    this.store.dispatch(new collectionActions.AddBook(book));
+    this.store.dispatch(new cartActions.AddBook(book));
   }
   addCollection(collection: Collection): void {
     this.store.dispatch(new collectionActions.AddCollection(collection));

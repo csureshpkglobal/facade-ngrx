@@ -4,8 +4,8 @@ import { Router, RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Book } from '../book.model';
-import { BooksFacadeService } from '../books-facade.service';
-import * as fromApp from '../app.reducer';
+import { BooksFacadeService } from '../ngrx-store/books-facade.service';
+import * as fromApp from '../ngrx-store/app.reducer';
 
 import { BookDetailsComponent } from './book-details.component';
 import { EffectsModule } from '@ngrx/effects';

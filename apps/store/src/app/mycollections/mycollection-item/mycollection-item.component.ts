@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BooksFacadeService } from '../../books-facade.service';
+import { BooksFacadeService } from '../../../app/ngrx-store/books-facade.service';
 import { Collection } from '../../collection.model';
 
 @Component({

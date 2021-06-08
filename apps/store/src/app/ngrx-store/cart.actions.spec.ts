@@ -39,4 +39,8 @@ describe('CartActions', () => {
     const action = new cartActions.RecentSearchWords(null);
     expect(action.type).toBeTruthy(cartActions.RECENT_SEARCHWORDS);
   });
+  it('should create AddBook Action', () => {
+    const action = new cartActions.AddBook(null);
+    expect(action.type).toBeTruthy(cartActions.ADD_BOOK);
+  });
 });

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { Book } from '../book.model';
-import { BooksFacadeService } from '../books-facade.service';
+import { BooksFacadeService } from '../../app/ngrx-store/books-facade.service';
 
 @Component({
   selector: 'app-book-details',

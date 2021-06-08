@@ -4,8 +4,8 @@ import { NgForm, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Store, StoreModule } from '@ngrx/store';
-import { BooksFacadeService } from '../books-facade.service';
-import * as fromApp from '../app.reducer';
+import { BooksFacadeService } from '../ngrx-store/books-facade.service';
+import * as fromApp from '../ngrx-store/app.reducer';
 
 import { BillingPageComponent } from './billing-page.component';
 import { EffectsModule } from '@ngrx/effects';

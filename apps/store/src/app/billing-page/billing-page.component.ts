@@ -4,7 +4,7 @@ import { Book } from '../book.model';
 import { Collection } from '../collection.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnakBarComponent } from '../snak-bar/snak-bar.component';
-import { BooksFacadeService } from '../books-facade.service';
+import { BooksFacadeService } from '../../app/ngrx-store/books-facade.service';
 
 @Component({
   selector: 'app-billing-page',

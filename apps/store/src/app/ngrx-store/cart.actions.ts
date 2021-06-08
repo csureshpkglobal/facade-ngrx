@@ -6,6 +6,7 @@ export const DELETE_CARTITEM = '[Cart] DELETE_CARTITEM';
 export const CLEAR_CART = '[Cart] CLEAR_CART';
 export const IS_CART = '[Cart] IS_CART';
 export const ADD_BOOKS = '[Cart] ADD_BOOKS';
+export const ADD_BOOK = '[Cart] ADD_BOOK';
 export const SELECTED_ID = '[Cart] SELECTED_ID';
 export const RECENT_SEARCHWORDS = '[Cart] RECENT SEARCH WORDS';
 
@@ -45,6 +46,10 @@ export class RecentSearchWords implements Action {
   readonly type = RECENT_SEARCHWORDS;
   constructor(public payload: string) {}
 }
+export class AddBook implements Action {
+  readonly type = ADD_BOOK;
+  constructor(public payload: Book) {}
+}
 
 export type CartActions =
   | AddCartItem
@@ -53,5 +58,6 @@ export type CartActions =
   | IsCart
   | GetBooksByName
   | AddBooks
+  | AddBook
   | SelectedId
   | RecentSearchWords;

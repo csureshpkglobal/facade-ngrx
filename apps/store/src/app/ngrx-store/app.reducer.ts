@@ -1,6 +1,6 @@
 import { ActionReducerMap } from '@ngrx/store';
-import * as fromCart from '../../src/app/ngrx-store/cart.reducer';
-import * as fromCollection from '../../src/app/ngrx-store/collection.reducer';
+import * as fromCart from './cart.reducer';
+import * as fromCollection from './collection.reducer';
 
 export interface AppState {
   cart: fromCart.State;
