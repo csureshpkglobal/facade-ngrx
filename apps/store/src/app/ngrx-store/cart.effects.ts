@@ -29,26 +29,10 @@ export class CartEffects {
       ofType(cartActions.GET_BOOKSBYNAME),
       switchMap((bookData: cartActions.GetBooksByName) => {
         return this.httpClient
-          .get<Book[]>(
-            'https://www.googleapis.com/books/v1/volumes?q=' + bookData.payload
-          )
+          .get<Book[]>('http://localhost:3000/api/books/' + bookData.payload)
           .pipe(
             map((res: any) => {
-              const books = [];
-              res.items.map((item: any) => {
-                const book: Book = {
-                  id: item.id,
-                  title: item.volumeInfo.title,
-                  imageLink: item.volumeInfo?.imageLinks?.thumbnail,
-                  description: item.volumeInfo.description,
-                  authors: item.volumeInfo.authors,
-                  ratingsCount: item.volumeInfo.ratingsCount,
-                  publisher: item.volumeInfo.publisher,
-                  pageCount: item.volumeInfo.pageCount,
-                  language: item.volumeInfo.language,
-                };
-                books.push(book);
-              });
+              const books = res || [];
               return new cartActions.AddBooks({ books });
             }),
             catchError((errorRes) => {
